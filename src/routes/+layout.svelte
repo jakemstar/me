@@ -1,6 +1,6 @@
 <script lang="ts">
   import { expoOut } from 'svelte/easing';
-  import { draw, fade, fly, scale, slide } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import "../app.css";
   import { page } from '$app/stores';
 
@@ -20,7 +20,7 @@
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
-        <button on:click={() => mobileMenuVisible = !mobileMenuVisible} type="button" class="inline-flex items-center justify-center rounded-md p-2 text-slate-400 hover:bg-slate-700 hover:text-slate-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded={mobileMenuVisible}>
+        <button on:click={() => mobileMenuVisible = !mobileMenuVisible} type="button" class="inline-flex items-center justify-center rounded-md p-2 text-slate-400 hover:bg-slate-600 hover:text-slate-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded={mobileMenuVisible}>
           <span class="sr-only">Open main menu</span>
           {#if !mobileMenuVisible}
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -42,7 +42,7 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             {#each routes as route}
-              <a href={route.href} class={"text-slate-50 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-700" + ($page.url.pathname === route.href ? " bg-slate-700" : " bg-slate-900")} aria-current="page">{route.name}</a>
+              <a href={route.href} class={"text-slate-50 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-600" + ($page.url.pathname === route.href ? " bg-slate-700" : " bg-slate-900")} aria-current="page">{route.name}</a>
             {/each}
           </div>
         </div>
@@ -60,7 +60,7 @@
           <div>
             <button on:click={() => dropdownVisible = !dropdownVisible} on:focusout={() => dropdownVisible = false} type="button" class="flex rounded-full bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
               <span class="sr-only">Open user menu</span>
-              <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+              <img class="h-8 w-8 rounded-full" src="/img/blankprofile.svg" alt="">
             </button>
           </div>
 
@@ -68,8 +68,8 @@
           {#if dropdownVisible}
             <div transition:fade="{{duration: 400, easing: expoOut}}" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
               <!-- Active: "bg-slate-100", Not Active: "" -->
-              <a href="/" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-              <a href="/" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+              <a href="/profile" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+              <a href="/settings" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
               <a href="/" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
             </div>
           {/if}
