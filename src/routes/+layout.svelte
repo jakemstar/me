@@ -11,11 +11,37 @@
     { name: 'Links', href: '/links'},
   ]
 
+  // mobile logic
   let mobileMenuVisible = false;
   let dropdownVisible = false;
+
+  // stuff for the routes hover animation
+  let routesHovered = false;
+  let routeHoverDurationAnim = "duration-0"
+
+  let routesRefs: HTMLAnchorElement[] = [];
+
+  let routeHoverWidth = 0;
+  let routeHoverPosition = 0;
+
+  let routeHoverOpacity = 'opacity-0'
+
+  function setRoutesNoHoverValues() {
+    routesHovered = false;
+    routeHoverOpacity='opacity-0';
+    routeHoverDurationAnim='duration-0'
+  }
+
+  function setRoutesHoverValues(i: number) {
+    routeHoverWidth = routesRefs[i].offsetWidth;
+    routeHoverPosition = routesRefs[i].offsetLeft;
+    routeHoverOpacity = 'opacity-100'
+    if (routesHovered) routeHoverDurationAnim = "duration-150";
+    routesHovered = true;
+  }
 </script>
 
-<nav class="bg-slate-900">
+<nav class="bg-slate-900 sticky z-[1]">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -39,10 +65,13 @@
           <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
           <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
         </div>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            {#each routes as route}
-              <a href={route.href} class={"text-slate-50 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-600" + ($page.url.pathname === route.href ? " bg-slate-700" : " bg-slate-900")} aria-current="page">{route.name}</a>
+        <div class="hidden relative sm:ml-6 sm:block">
+          <div style={`width:${routeHoverWidth}px; transform:translateX(${routeHoverPosition}px);`} class={`bg-slate-600 rounded-md h-9 z-[-1] absolute ${routeHoverDurationAnim} ${routeHoverOpacity}`}></div>
+          <div on:mouseleave={() => setRoutesNoHoverValues()} class="flex space-x-4">
+            {#each routes as route, i}
+              <div on:mouseenter={() => setRoutesHoverValues(i)} class={"flex pb-1" + ($page.url.pathname === route.href ? "  border-b-2" : "")}>
+                <a bind:this={routesRefs[i]} href={route.href} class={"text-slate-50 rounded-md px-3 py-2 text-sm font-medium"} aria-current="page">{route.name}</a>
+              </div>
             {/each}
           </div>
         </div>
