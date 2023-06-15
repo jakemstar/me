@@ -11,5 +11,5 @@ export const GET: RequestHandler = async ({ locals }) => {
 	await auth.invalidateSession(session.sessionId)
 	locals.auth.setSession(null)
 
-	throw redirect(302, '/')
+	return new Response(null, {headers: { Location: '/' }, status: 302})
 };
