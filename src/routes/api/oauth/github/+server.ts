@@ -10,8 +10,6 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
 
-	console.log(url.origin)
-
 	// get stored state from cookies
 	const storedState = cookies.get("github_oauth_state");
 
@@ -43,5 +41,6 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 			status: 500
 		});
 	}
+	url.searchParams.delete("code");
 	throw redirect(302, "/");
 };

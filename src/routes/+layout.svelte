@@ -11,14 +11,6 @@
 
   const signedIn = !!data.user?.id;
 
-  async function signOut(){
-    goto('/api/logout');
-  }
-
-  async function signIn(){
-    goto('/api/oauth');
-  }
-
   const routes = [
     { name: 'Home', href: '/'},
     { name: 'Blog', href: '/blog'},
@@ -114,7 +106,7 @@
               <!-- Active: "bg-slate-100", Not Active: "" -->
               <a href="/" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
               <a href="/" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-              <button on:click={async () => {signedIn ? await signOut() : await signIn()}} class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-2">{signedIn ? "Sign out" : "Sign in"}</button>
+              <a href={signedIn ? "/api/logout" : "/api/oauth"} class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-2">{signedIn ? "Sign out" : "Sign in"}</a>
             </div>
           {/if}
         </div>
