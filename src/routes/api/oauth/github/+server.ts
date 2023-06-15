@@ -43,5 +43,5 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 			status: 500
 		});
 	}
-	throw redirect(308, "/");
+	throw redirect(302, "/");
 };
