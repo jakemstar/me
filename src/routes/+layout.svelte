@@ -1,8 +1,23 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
+  import { page } from '$app/stores';
   import { expoOut } from 'svelte/easing';
   import { fade, slide } from "svelte/transition";
   import "../app.css";
-  import { page } from '$app/stores';
+  import type { PageData } from './$types';
+	export let data: PageData
+
+  console.log(data)
+
+  const signedIn = !!data.user?.id;
+
+  async function signOut(){
+    goto('/api/logout');
+  }
+
+  async function signIn(){
+    goto('/api/oauth');
+  }
 
   const routes = [
     { name: 'Home', href: '/'},
@@ -99,7 +114,7 @@
               <!-- Active: "bg-slate-100", Not Active: "" -->
               <a href="/profile" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
               <a href="/settings" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-              <a href="/" class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+              <button on:click={async () => {signedIn ? await signOut() : await signIn()}} class="block px-4 py-2 text-sm text-slate-700" role="menuitem" tabindex="-1" id="user-menu-item-2">{signedIn ? "Sign out" : "Sign in"}</button>
             </div>
           {/if}
         </div>
@@ -119,5 +134,6 @@
   {/if}
 </nav>
 <div class="container mx-auto">
+  {signedIn ? "Signed in" : "Signed out"}
   <slot />
 </div>
